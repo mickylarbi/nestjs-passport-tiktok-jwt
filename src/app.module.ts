@@ -8,9 +8,15 @@ import { PassportModule } from '@nestjs/passport';
 import { MongooseConfigModule } from './mongoose/mongoose-config.module';
 import { MongooseConfigService } from './mongoose/mongoose-config.service';
 import { UserModule } from './user/user.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([{
+      ttl: 60, // Time to live (seconds)
+      limit: 10, // Maximum number of requests within that time
+    }]),
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRootAsync({
       imports: [MongooseConfigModule],
@@ -21,6 +27,12 @@ import { UserModule } from './user/user.module';
     UserModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule { }
