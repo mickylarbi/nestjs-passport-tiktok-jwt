@@ -7,6 +7,7 @@ import { TiktokStrategy } from './tiktok.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { JwtConfigModule } from 'src/jwt/jwt-config.module';
 import { JwtConfigService } from 'src/jwt/jwt-config.service';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { JwtConfigService } from 'src/jwt/jwt-config.service';
             imports: [JwtConfigModule],
             useExisting: JwtConfigService,
         }),
+        UserModule
     ],
     controllers: [AuthController],
     providers: [AuthService, TiktokStrategy, JwtStrategy],
