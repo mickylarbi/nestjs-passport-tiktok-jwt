@@ -16,9 +16,7 @@ export class TiktokStrategy extends PassportStrategy(Strategy, 'tiktok') {
     }
 
     async validate(accessToken: string, refreshToken: string, profile: any): Promise<any> {
-        return {
-            ...profile,
-            accessToken,
-        };
+        const { _json, displayName, } = profile
+        return { email: _json.email, displayName }
     }
 }
