@@ -5,7 +5,7 @@ import { Document } from "mongoose";
 export class User extends Document {
 
     @Prop({ required: true, unique: true })
-    email: string
+    openId: string
 
     @Prop({ required: true })
     displayName: string

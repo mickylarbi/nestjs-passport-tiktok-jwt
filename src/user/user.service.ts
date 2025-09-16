@@ -9,22 +9,22 @@ export class UserService {
     constructor(@InjectModel(User.name) private userModel: Model<User>) { }
 
 
-    async findByEmail(email: string) {
-        return (await this.userModel.findOne({ email }).exec())?.toObject()
+    async findByOpenId(openId: string) {
+        return (await this.userModel.findOne({ openId }).exec())?.toObject()
     }
     async findById(id: string) {
         return (await this.userModel.findById(id).exec())?.toObject()
     }
 
-    async findAll(){
+    async findAll() {
         return await this.userModel.find().exec()
     }
 
-    async create(email: string, displayName: string) {
-        const user = await this.findByEmail(email)
-        if (user) throw new ConflictException('A user already exists with the given email')
+    async create(openId: string, displayName: string) {
+        const user = await this.findByOpenId(openId)
+        if (user) throw new ConflictException('A user already exists with the given openId')
 
-        const newUser = new this.userModel({ displayName, email })
+        const newUser = new this.userModel({ displayName, openId })
 
         return { ...(await newUser.save()).toObject(), __v: undefined, refreshToken: undefined }
     }

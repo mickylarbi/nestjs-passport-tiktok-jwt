@@ -12,7 +12,7 @@ export class AuthService {
   ) { }
 
   async login(user) {
-    const payload = { email: user.email, sub: user._id }
+    const payload = { openId: user.openId, sub: user._id }
 
     const access_token = this.jwtService.sign(payload, {
       secret: this.configService.get<string>('ACCESS_TOKEN_SECRET'),

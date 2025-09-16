@@ -1,5 +1,5 @@
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy } from 'passport-tiktok-oauth2';
+import { Strategy, TikTokBasicProfile } from 'passport-tiktok-oauth2';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
@@ -15,8 +15,8 @@ export class TiktokStrategy extends PassportStrategy(Strategy, 'tiktok') {
         });
     }
 
-    async validate(accessToken: string, refreshToken: string, profile: any): Promise<any> {
-        const { _json, displayName, } = profile
-        return { email: _json.email, displayName }
+    async validate(accessToken: string, refreshToken: string, profile: TikTokBasicProfile): Promise<any> {
+        const { openId, displayName, } = profile
+        return { openId, displayName }
     }
 }

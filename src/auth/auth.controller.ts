@@ -17,9 +17,9 @@ export class AuthController {
     @Get('tiktok/callback')
     @UseGuards(AuthGuard('tiktok'))
     async tiktokCallback(@Req() req, @Res() res) {
-        let user: any = await this.userService.findByEmail(req.user.email)
+        let user: any = await this.userService.findByOpenId(req.user.openId)
         while (!user) {
-            user = await this.userService.create(req.user.email, req.user.displayName)
+            user = await this.userService.create(req.user.openId, req.user.displayName)
         }
 
         const { access_token } = await this.authService.login(user)
@@ -29,7 +29,7 @@ export class AuthController {
     @Get('profile')
     @UseGuards(AuthGuard('jwt'))
     async getProfile(@Req() req) {
-        const user = await this.userService.findByEmail(req.user.email);
+        const user = await this.userService.findByOpenId(req.user.openId);
         return { ...user, __v: undefined, refreshToken: undefined }
     }
 }
