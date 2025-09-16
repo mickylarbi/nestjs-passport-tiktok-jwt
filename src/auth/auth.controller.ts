@@ -2,12 +2,14 @@ import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { UserService } from 'src/user/user.service';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
     constructor(
         private readonly authService: AuthService,
-        private readonly userService: UserService
+        private readonly userService: UserService,
+        private readonly configService: ConfigService
     ) { }
 
     @Get('tiktok')
@@ -23,7 +25,7 @@ export class AuthController {
         }
 
         const { access_token } = await this.authService.login(user)
-        res.redirect(`http://localhost:5173/auth/callback?token=${access_token}`);
+        res.redirect(`${this.configService.get<string>('FRONTEND_REDIRECT_URL')}?token=${access_token}`);
     }
 
     @Get('profile')
