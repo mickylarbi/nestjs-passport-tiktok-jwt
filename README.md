@@ -80,8 +80,10 @@ $ npm run start:prod
 
 ## Try it out
 
-A simple website has been hosted temporarily for testing out this implementation.
-You may find it [here](https://tiktok-auth-frontend.vercel.app).
+This app has been temporarily hosted for testing purposes. The base url is [https://nestjs-passport-tiktok-jwt.onrender.com](https://nestjs-passport-tiktok-jwt.onrender.com)
+
+Also, a simple website has been hosted temporarily for testing out this implementation.
+You may find that also [here](https://tiktok-auth-frontend.onrender.com).
 
 <!-- ## Run tests
 
