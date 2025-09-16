@@ -5,16 +5,18 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { TiktokStrategy } from './tiktok.strategy';
 import { JwtStrategy } from './jwt.strategy';
+import { JwtConfigModule } from 'src/jwt/jwt-config.module';
+import { JwtConfigService } from 'src/jwt/jwt-config.service';
 
 @Module({
-  imports: [
-    PassportModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1d' },
-    }),
-  ],
-  controllers: [AuthController],
-  providers: [AuthService, TiktokStrategy, JwtStrategy],
+    imports: [
+        PassportModule,
+        JwtModule.registerAsync({
+            imports: [JwtConfigModule],
+            useExisting: JwtConfigService,
+        }),
+    ],
+    controllers: [AuthController],
+    providers: [AuthService, TiktokStrategy, JwtStrategy],
 })
-export class AuthModule {}
+export class AuthModule { }
