@@ -7,9 +7,11 @@ export class AuthService {
 
   async login(user: any) {
     const payload = { sub: user.id, username: user.username };
-    return {
-      access_token: await this.jwtService.sign(payload),
-    };
+    const access_token = this.jwtService.sign(payload, {
+      // secret: this.configService.get<string>('ACCESS_TOKEN_SECRET'),
+      expiresIn: '1h'
+    })
+    return access_token;
   }
 
   async validateUser(payload: any) {
